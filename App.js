@@ -7,6 +7,10 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8000;
 
+app.use(express.json())
+app.use(express.urlencoded({extended : false}))
+
+
 app.get('/', (req, res) => {
     res.send(`Welcome to my API`);
 });
@@ -28,5 +32,25 @@ app.get('/musics/:id', (req, res) => {
         return res.status(500).json({message : "internal server error"})
     }
 });
+
+app.post('/musics', (req,res) => {
+    let {name,author,genre} = req.body
+    try{
+        if(!name || !author || !genre) {
+            return res.status(401).json({message : "required for all"})
+        }
+        const newMusic = {
+            id: musics.length + 1,
+            name,
+            author,
+            genre,
+        }
+        musics.push(newMusic)
+        return res.status(201).json(musics)
+    }
+    catch(err){
+        return res.status(500).json({message : "Internal server error"})
+    }
+})
 
 app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
