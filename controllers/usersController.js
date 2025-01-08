@@ -13,7 +13,7 @@ export const getAllUsers = async (req, res) => {
     }
 };
 
-// Récupérer un utilisateur par ID
+// Récupérer un utilisateur par l' ID
 export const getUserByID = async (req, res) => {
     try {
         const user = await Users.findById(req.params.id);
@@ -26,7 +26,7 @@ export const getUserByID = async (req, res) => {
     }
 };
 
-// Créer un nouvel utilisateur
+// Créer un nouvel utilisateu
 export const createUser = async (req, res) => {
     try {
         const { first_name, last_name, passion } = req.body;
