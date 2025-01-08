@@ -16,12 +16,10 @@ app.use(bodyParser.json());
 
 app.use('/api', userRoutes);
 
-mongoose.connect(mongoDB, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
+mongoose.connect(mongoDB)
     .then(() => console.log('MongoDB connected successfully'))
     .catch(err => console.log('MongoDB connection error:', err));
+
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
