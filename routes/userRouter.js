@@ -1,41 +1,19 @@
-import { router } from 'express'
-import Users from '../models/Users'
+import express from 'express';
+import {
+    getAllUsers,
+    getUserByID,
+    createUser,
+    deleteUserByID,
+    updateUserByID
+} from '../controllers/userController.js';
 
-const userRouter = Router()
+const router = express.Router();
 
-userRouter.get('/users', async (req, res) => {
-    try {
+router.get('/users', getAllUsers);
+router.get('/users/:id', getUserByID);
+router.post('/users', createUser);
+router.delete('/users/:id', deleteUserByID);
+router.put('/users/:id', updateUserByID);
 
-        const users = await Users.find()
-        if (users.length < 1) {
-            return res.status(400).json({ message: 'Users not found' })
-        }
-        return res.status(200).json(users)
-    }
-    catch (err) {
-        return res.status(500).json({ message: 'internal server error' })
-    }
-})
+export default router;
 
-userRouter.get('/users/:id', async (req, res) => {
-    try {
-        const userByID = await Users.findById(id)
-        return res.status(200).json(userByID)
-    }
-    catch (err) {
-        return res.status(500).json({ message: 'internal server error' })
-    }
-})
-userRouter.post('/users', async (req, res) => {
-    const { first_name, last_name, passion } = req.body
-    try {
-        const newUser = await Users.create(req.body)
-        return res.status(201).json(newUser)
-    }
-    catch (err) {
-        return res.status(500).json({ message: 'internal server error' })
-    }
-})
-
-
-export default userRouter
