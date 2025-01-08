@@ -59,5 +59,6 @@ export const musics = [
       auteur: "Nina Kraviz",
       nom: "Ghetto Kraviz"
     }
-  ];
+];
+
   

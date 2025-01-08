@@ -1,17 +1,21 @@
-import express from 'express';
-import { musics } from './data/musics.js';
-import dotenv from 'dotenv';
-import { musicsRouter } from './route/musicsRouter.js';
 
-dotenv.config();
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import { musicsRouter } from './routes/musicsRouter.js'; 
+
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+const port = 8000;
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+app.use(cors());
+app.use(bodyParser.json());
 
 
-app.use('/musics', musicsRouter);
+app.use('/api', musicsRouter); 
 
-app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
+app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
+});
+
+
