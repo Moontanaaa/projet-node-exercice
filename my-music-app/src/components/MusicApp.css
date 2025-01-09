@@ -1,0 +1,48 @@
+
+body {
+    background-image: url('https://example.com/techno-dj-background.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+  
+  .bg-primary {
+    background-color: #121212; 
+  }
+  
+  .text-highlight {
+    color: #1DB954; 
+  }
+  
+  .button-primary {
+    background-color: #1DB954;
+    color: #fff;
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+  }
+  
+  .button-primary:hover {
+    background-color: #1ed760;
+    transform: scale(1.05);
+  }
+  
+  .card-music {
+    background-color: rgba(18, 18, 18, 0.9);
+    border: 1px solid #1DB954;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  .input-field {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid #1DB954;
+  }
+  
+  .input-field:focus {
+    border-color: #1ed760;
+    box-shadow: 0 0 5px #1DB954;
+  }
+  
+  .shadow-spotify {
+    box-shadow: 0px 4px 20px rgba(29, 185, 84, 0.5);
+  }
+  
