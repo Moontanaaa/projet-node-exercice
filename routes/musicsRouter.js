@@ -1,60 +1,22 @@
-import { Router } from 'express';
-import { musics } from '../data/musics.js';
+// routes/musicsRouter.js
 
-export const musicsRouter = Router();
+import express from 'express';
+import { getAllMusics, getMusicById, createMusic, updateMusic, deleteMusic } from '../controllers/musicsController.js';
 
-musicsRouter.get('/', (req, res) => {
-    res.send(`Welcome to my API`);
-});
+export const musicsRouter = express.Router();
 
-musicsRouter.get('/musics', (req, res) => {
-    res.json(musics);
-});
+// Afficher toutes les musiques
+musicsRouter.get('/', getAllMusics);
 
-musicsRouter.get('/musics/:id', (req, res) => {
-    const { id } = req.params;
-    const musicById = musics.find(music => music.id === parseInt(id));
-    if (!musicById) {
-        return res.status(404).json({ message: 'Music not found' });
-    }
-    return res.status(200).json(musicById);
-});
+// Afficher une musique par ID
+musicsRouter.get('/:id', getMusicById);
 
-musicsRouter.post('/musics', (req, res) => {
-    const { name, author, genre } = req.body;
-    if (!name || !author || !genre) {
-        return res.status(400).json({ message: 'All fields are required' });
-    }
-    const newMusic = {
-        id: musics.length + 1,
-        name,
-        author,
-        genre,
-    };
-    musics.push(newMusic);
-    return res.status(201).json(newMusic);
-});
+// Ajouter une nouvelle musique
+musicsRouter.post('/', createMusic);
 
-musicsRouter.put('/musics/:id', (req, res) => {
-    const { id } = req.params;
-    const { name, author, genre } = req.body;
-    const musicIndex = musics.findIndex(music => music.id === parseInt(id));
-    if (musicIndex === -1) {
-        return res.status(404).json({ message: 'Music not found' });
-    }
-    if (!name || !author || !genre) {
-        return res.status(400).json({ message: 'All fields are required' });
-    }
-    musics[musicIndex] = { id: musics[musicIndex].id, name, author, genre };
-    return res.status(200).json(musics[musicIndex]);
-});
+// Mettre à jour une musique
+musicsRouter.put('/:id', updateMusic);
 
-musicsRouter.delete('/musics/:id', (req, res) => {
-    const { id } = req.params;
-    const musicIndex = musics.findIndex(music => music.id === parseInt(id));
-    if (musicIndex === -1) {
-        return res.status(404).json({ message: 'Music not found' });
-    }
-    musics.splice(musicIndex, 1);
-    return res.status(200).json({ message: 'Music deleted successfully' });
-});
+// Supprimer une musique
+musicsRouter.delete('/:id', deleteMusic);
+
