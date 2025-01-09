@@ -1,4 +1,4 @@
-export const musics = [
+const musics = [
     {
       id: 1,
       genre: "Techno",
@@ -61,4 +61,4 @@ export const musics = [
     }
 ];
 
-  
+export default musics

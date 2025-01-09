@@ -1,22 +1,83 @@
-// routes/musicsRouter.js
+import {Router} from 'express'
+import musics from '../data/musics.js'
 
-import express from 'express';
-import { getAllMusics, getMusicById, createMusic, updateMusic, deleteMusic } from '../controllers/musicsController.js';
+const musicsRouter = Router()
 
-export const musicsRouter = express.Router();
 
-// Afficher toutes les musiques
-musicsRouter.get('/', getAllMusics);
+musicsRouter.get('/musics', (request, response) => {
+    response.json(musics)
+})
 
-// Afficher une musique par ID
-musicsRouter.get('/:id', getMusicById);
+musicsRouter.get('/musics/:id', (req, res) => {
+    let {id} = req.params
+    try{
+        const musicByID = musics.find(music => music.id === parseInt(id))
+        if(!musicByID){
+            return res.status(403).json({message : 'Music not found'})
+        }
+        return res.status(200).json(musicByID)
+    }
+    catch(err){
+        return res.status(500).json({ message : 'Internal server error'})
+    }
+})
 
-// Ajouter une nouvelle musique
-musicsRouter.post('/', createMusic);
+musicsRouter.post('/musics', (req, res) => {
+    let {name, author, genre} = req.body
+    try{
+        if(!name || !author || !genre){
+            return res.status(401).json({message : 'All fields are required'})
+        }
+        const newMusic = {
+            id : musics.length + 1,
+            name,
+            author,
+            genre
+        }
+        musics.push(newMusic)
+        return res.status(201).json(musics)
+    }
+    catch(err){
+        return res.status(500).json({ message : 'Internal server error'})
+    }
+})
 
-// Mettre à jour une musique
-musicsRouter.put('/:id', updateMusic);
+musicsRouter.put('/musics/:id', (req, res) => {
+    let {id} = req.params
+    let {name, author, genre} = req.body
+    try{
+        const musicByID = musics.find(music => music.id === parseInt(id))
+        if(!musicByID){
+            return res.status(403).json({message : 'Music not found'})
+        }
+        musicByID.name = name || musicByID.name
+        musicByID.author = author || musicByID.author
+        musicByID.genre = genre || musicByID.genre
+        return res.status(201).json({message : `Music ${musicByID.name} has been updated`})
+    }
+    catch(err){
+        return res.status(500).json({ message : 'Internal server error'})
+    }
+})
 
-// Supprimer une musique
-musicsRouter.delete('/:id', deleteMusic);
+musicsRouter.delete('/musics/:id', (req, res) => {
+    let {id} = req.params
+    try{
+        const musicByID = musics.find(music => music.id === parseInt(id))
+        if(!musicByID){
+            return res.status(403).json({message : 'Music not found'})
+        }
+        const index = musics.indexOf(musicByID)
+        const deletedMusic = musics.splice(index, 1)
+        if(deletedMusic){
+            return res.status(203).json({message : `Music ${musicByID.name} has been deleted`})
+        }
+    }
+    catch(err){
+        return res.status(500).json({ message : 'Internal server error'})
+    }
+})
+
+
+export default musicsRouter
 
